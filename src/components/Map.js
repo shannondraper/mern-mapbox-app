@@ -2,16 +2,25 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import ReactMapGL, { Marker } from 'react-map-gl';
 import { IoMdPin } from 'react-icons/io';
+import Search from './Search';
+import ContextMenu from './ContextMenu';
 // import PinPopup from './PinPopup';
 import { Popup } from 'react-map-gl';
 import axios from 'axios';
+import '../styles/App.css';
 
 function Map() {
 const [pins, setPins] = useState([])
 const [currentPlaceId, setCurrentPlaceId] = useState(null); 
+const [contextMenuState, setContextMenuState] = useState(false);
+const [xPos, setXPos] = useState("0px");
+const [yPos, setYPos] = useState("0px");
+const [latClickPos, setLatClickPos] = useState(null)
+const [longClickPos, setLongClickPos] = useState(null)
+
 
 const [viewport, setViewport] = useState({
-	width: "70vw",
+	width: "100vw",
 	height: "80vh",
 	latitude: 43.642514,
 	longitude: -79.387071,
@@ -19,31 +28,53 @@ const [viewport, setViewport] = useState({
 });
 
 useEffect(() => {
+	const mapbox = document.querySelector('.mapboxgl-map')
+	// console.log('mapbox', mapbox);
+	// mapbox.addEventListener('contextmenu', handleContextMenu)
+
+
 	const getPins = async () => {
 		try {
 			const res = await axios.get('/pins')
 			setPins(res.data)
-			console.log(res.data);
+			// console.log(res.data);
 		} catch(err) {
-			console.log(err);
+			// console.log(err);
 		}
 	}
 	getPins();
 }, [])
 
+const handleContextMenu = (e) => {
+	e.preventDefault();
+	setContextMenuState(true)
+	setXPos(Math.round(e.offsetCenter.x))
+	setYPos(Math.round(e.offsetCenter.y))
+}
+
 const handleMarkerClick = (id) => {
 	setCurrentPlaceId(id)
-
+}
+const handleClick = (e) => {
+	console.log('long & lat: ', e.lngLat);
 }
 return (
 	<ReactMapGL
 		{...viewport}
 		mapboxApiAccessToken={process.env.REACT_APP_MAPBOX}
 		onViewportChange={nextViewport => setViewport(nextViewport)}
+		onClick={(e) => handleClick(e)}
+		onContextMenu={handleContextMenu}
 	>
+		<Search setViewport={setViewport} />
+		<ContextMenu
+			contextMenuState={contextMenuState}
+			setContextMenuState={setContextMenuState}
+			xPos={xPos}
+			yPos={yPos} />
 		{
 			pins.map((pin) => (
-				<>
+				<div key={pin._id}>
 					<Marker
 						latitude={pin.lat}
 						longitude={pin.long}
@@ -59,6 +90,7 @@ return (
 					{
 						pin._id === currentPlaceId && 
 						<Popup
+							key={pin._id}
 							latitude={pin.lat}
 							longitude={pin.long}
 							closeButton={true}
@@ -68,14 +100,12 @@ return (
 							onClose={() => setCurrentPlaceId(null)}
 						>
 							<h3>{pin.title}</h3>
-							<p>
-								{pin.desc}
-							</p>
+							<p>{pin.desc}</p>
 							<p>{pin.username}</p>
 
 						</Popup>
 					}
-				</>
+				</div>
 			))
 		}
 	

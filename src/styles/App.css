@@ -5,6 +5,7 @@
     font-family: 'Source Sans Pro', sans-serif;
     margin: 0;
 }
+
 h1,
 h2,
 h3,
@@ -38,9 +39,9 @@ p {
     justify-content: space-between;
 }
 .header {
-    height: 15vh;
-    background: lightpink;
-    width: 100vw;
+    height: 15%;
+    background: rgba(0,0,0,0.1);
+    width: 100%;
     padding: 15px;
 }
 .header .search-bar {
@@ -56,7 +57,7 @@ p {
     margin-right: 10px;
 }
 .header input[type=submit] {
-    background: black;
+    background: slateblue;
     color: white;
     border: none;
     font-size: 18px;
@@ -66,11 +67,6 @@ p {
 }
 .content {
     display: flex;
-}
-.sidebar {
-    background: lightblue;
-    height: 100%;
-    width: 30vw;
-    height: 80vh;
-    padding: 15px;
+    justify-content: space-between;
+    width: 100%;
 }

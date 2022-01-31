@@ -1,0 +1,33 @@
+.context-menu {
+    display: none;
+    width: 100px;
+    height: 75px;
+    background: white;
+    position: absolute;
+    padding-left: 0;
+    border-radius: 5px;
+    box-shadow: 0 0 9px 3px rgba(0,0,0,0.2);
+}
+.context-menu.open {
+    display: inline-block;
+}
+.context-menu li {
+    list-style-type: none;
+    padding: 0;
+    transition: 0.2s all ease;
+}
+.context-menu li:last-child {
+    border-bottom: none;
+}
+.context-menu li:hover {
+    /* background: rgba(slateBlue, 0.5); */
+    background: rgba(106, 90, 205, 0.2)
+}
+.context-menu button {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}

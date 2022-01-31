@@ -1,0 +1,31 @@
+.search-container {
+    position: relative;
+}
+.search-bar input {
+    width: 300px;
+    margin: 5px 0 0 5px;
+}
+.search-results {
+    position: absolute;
+    width: 500px;
+    height: 180px;
+    background-color: white;
+    bottom: -180px;
+    left: 0;
+    z-index: 10;
+}
+.search-results.hidden {
+    display: none;
+}
+a {
+    text-decoration: none;
+    color: black;
+    white-space: nowrap;
+    display: block;
+    padding: 8px 10px;
+    overflow:hidden;
+}
+a:hover {
+    background: rgba(0,0,0,0.08);
+    cursor: pointer;
+}

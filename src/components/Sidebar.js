@@ -1,9 +1,10 @@
-import '../styles/App.css';
+import '../styles/PinList.css';
+import PinList from './PinList';
 
 function Sidebar() {
   return (
     <section className="sidebar">
-        sidebar
+        <PinList />
     </section>
   );
 }
