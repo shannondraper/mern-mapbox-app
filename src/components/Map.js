@@ -5,7 +5,6 @@ import { IoMdPin } from 'react-icons/io';
 import Search from './Search';
 import ContextMenu from './ContextMenu';
 import AddPinForm from './AddPinForm';
-// import PinPopup from './PinPopup';
 import { Popup } from 'react-map-gl';
 import axios from 'axios';
 import '../styles/App.css';
@@ -31,10 +30,6 @@ const [viewport, setViewport] = useState({
 });
 
 useEffect(() => {
-	const mapbox = document.querySelector('.mapboxgl-map')
-	// console.log('mapbox', mapbox);
-	// mapbox.addEventListener('contextmenu', handleContextMenu)
-
 
 	const getPins = async () => {
 		try {
@@ -42,7 +37,7 @@ useEffect(() => {
 			setPins(res.data)
 			// console.log(res.data);
 		} catch(err) {
-			// console.log(err);
+			console.log(err);
 		}
 	}
 	getPins();
@@ -59,7 +54,6 @@ const handleMarkerClick = (id) => {
 	setCurrentPlaceId(id)
 }
 const handleClick = (e) => {
-	// console.log('long & lat: ', e.lngLat);
 	setLongClickPos(e.lngLat[0])
 	setLatClickPos(e.lngLat[1])
 }
