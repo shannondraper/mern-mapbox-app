@@ -4,10 +4,12 @@ import ReactMapGL, { Marker } from 'react-map-gl';
 import { IoMdPin } from 'react-icons/io';
 import Search from './Search';
 import ContextMenu from './ContextMenu';
+import AddPinForm from './AddPinForm';
 // import PinPopup from './PinPopup';
 import { Popup } from 'react-map-gl';
 import axios from 'axios';
 import '../styles/App.css';
+
 
 function Map() {
 const [pins, setPins] = useState([])
@@ -17,6 +19,7 @@ const [xPos, setXPos] = useState("0px");
 const [yPos, setYPos] = useState("0px");
 const [latClickPos, setLatClickPos] = useState(null)
 const [longClickPos, setLongClickPos] = useState(null)
+const [addPinFormIsOpen, setAddPinFormIsOpen] = useState(false)
 
 
 const [viewport, setViewport] = useState({
@@ -56,60 +59,70 @@ const handleMarkerClick = (id) => {
 	setCurrentPlaceId(id)
 }
 const handleClick = (e) => {
-	console.log('long & lat: ', e.lngLat);
+	// console.log('long & lat: ', e.lngLat);
+	setLongClickPos(e.lngLat[0])
+	setLatClickPos(e.lngLat[1])
 }
 return (
-	<ReactMapGL
-		{...viewport}
-		mapboxApiAccessToken={process.env.REACT_APP_MAPBOX}
-		onViewportChange={nextViewport => setViewport(nextViewport)}
-		onClick={(e) => handleClick(e)}
-		onContextMenu={handleContextMenu}
-	>
-		<Search setViewport={setViewport} />
-		<ContextMenu
-			contextMenuState={contextMenuState}
-			setContextMenuState={setContextMenuState}
-			xPos={xPos}
-			yPos={yPos} />
-		{
-			pins.map((pin) => (
-				<div key={pin._id}>
-					<Marker
-						latitude={pin.lat}
-						longitude={pin.long}
-						offsetLeft={-20}
-						offsetTop={-10}
-						key={pin._id}
-					>
-						<IoMdPin
-							style={{ fontSize: viewport.zoom * 3, color: 'slateblue', cursor: 'pointer' }}
-							onClick={() => handleMarkerClick(pin._id)}
-						/>
-					</Marker>
-					{
-						pin._id === currentPlaceId && 
-						<Popup
-							key={pin._id}
+	<>
+		<ReactMapGL
+			{...viewport}
+			mapboxApiAccessToken={process.env.REACT_APP_MAPBOX}
+			onViewportChange={nextViewport => setViewport(nextViewport)}
+			onClick={(e) => handleClick(e)}
+			onContextMenu={handleContextMenu}
+		>
+			<Search setViewport={setViewport} />
+			<ContextMenu
+				contextMenuState={contextMenuState}
+				setContextMenuState={setContextMenuState}
+				setAddPinFormIsOpen={setAddPinFormIsOpen}
+				latClickPos={latClickPos}
+				longClickPos={longClickPos}
+				xPos={xPos}
+				yPos={yPos} />
+			{
+				pins.map((pin) => (
+					<div key={pin._id}>
+						<Marker
 							latitude={pin.lat}
 							longitude={pin.long}
-							closeButton={true}
-							closeOnClick={false}
-							anchor="bottom"
-							className='pin-popup'
-							onClose={() => setCurrentPlaceId(null)}
+							offsetLeft={-20}
+							offsetTop={-10}
+							key={pin._id}
 						>
-							<h3>{pin.title}</h3>
-							<p>{pin.desc}</p>
-							<p>{pin.username}</p>
+							<IoMdPin
+								style={{ fontSize: viewport.zoom * 3, color: 'slateblue', cursor: 'pointer' }}
+								onClick={() => handleMarkerClick(pin._id)}
+							/>
+						</Marker>
+						{
+							pin._id === currentPlaceId && 
+							<Popup
+								key={pin._id}
+								latitude={pin.lat}
+								longitude={pin.long}
+								closeButton={true}
+								closeOnClick={false}
+								anchor="bottom"
+								className='pin-popup'
+								onClose={() => setCurrentPlaceId(null)}
+							>
+								<h3>{pin.title}</h3>
+								<p>{pin.desc}</p>
+								<p>{pin.username}</p>
 
-						</Popup>
-					}
-				</div>
-			))
-		}
-	
-	</ReactMapGL>
+							</Popup>
+						}
+					</div>
+				))
+			}
+		
+		</ReactMapGL>
+		<AddPinForm
+			addPinFormIsOpen={addPinFormIsOpen}
+			setAddPinFormIsOpen={setAddPinFormIsOpen} />
+	</>
 );
 }
 export default Map;

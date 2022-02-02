@@ -1,14 +1,14 @@
 import '../styles/App.css';
-import AddPinForm from './AddPinForm';
+// import AddPinForm from './AddPinForm';
 import { useState } from 'react';
 
 
 function Header() {
-  const [addPinFormIsOpen, setAddPinFormIsOpen] = useState(false)
+  // const [addPinFormIsOpen, setAddPinFormIsOpen] = useState(false)
   
   const handleAddPin = () => {
     console.log('add new pin');
-    setAddPinFormIsOpen(true)
+    // setAddPinFormIsOpen(true)
   }
   return (
     <section className="header">
@@ -17,9 +17,9 @@ function Header() {
           {/* <button onClick={handleAddPin}>
             Add Pin
           </button> */}
-          <AddPinForm
+          {/* <AddPinForm
             addPinFormIsOpen={addPinFormIsOpen}
-            setAddPinFormIsOpen={setAddPinFormIsOpen} />
+            setAddPinFormIsOpen={setAddPinFormIsOpen} /> */}
         </div>
     </section>
   );

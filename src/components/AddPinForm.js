@@ -18,7 +18,7 @@ function AddPinForm(props) {
                     type="text" 
                     name="Name" 
                     id="Name"
-                    placeholder="Name of Accountant or Business" />
+                    placeholder="Name of Business" />
 
                 <label htmlFor="Description">Description</label>
                 <input 
